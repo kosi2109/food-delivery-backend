@@ -26,6 +26,10 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('cover_image')
+                    ->directory('categories')
+                    ->image()
+                    ->nullable(),
             ]);
     }
 
@@ -35,6 +39,7 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+                Tables\Columns\ImageColumn::make('cover_image'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])
