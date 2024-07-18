@@ -42,8 +42,8 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\ImageColumn::make('cover_image'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')->dateTime(),
+                Tables\Columns\TextColumn::make('created_at')->dateTime('D M, Y'),
+                // Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])
             ->filters([
                 //

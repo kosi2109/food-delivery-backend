@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->integer('price');
+            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->integer('price');
+            $table->float('rating')->default(0);
+            $table->boolean('is_offer_item')->default(false);
+            $table->integer('offer_price')->nullable();
+            $table->string('cover_image')->nullable();
             $table->timestamps();
         });
     }
