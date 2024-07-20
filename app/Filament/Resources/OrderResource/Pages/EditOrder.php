@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ItemResource\Pages;
+namespace App\Filament\Resources\OrderResource\Pages;
 
-use App\Filament\Resources\ItemResource;
+use App\Filament\Resources\OrderResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditItem extends EditRecord
+class EditOrder extends EditRecord
 {
-    protected static string $resource = ItemResource::class;
+    protected static string $resource = OrderResource::class;
 
     protected function getHeaderActions(): array
     {

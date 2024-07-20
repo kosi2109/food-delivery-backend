@@ -31,7 +31,8 @@ class RestaurantResource extends Resource
                 Forms\Components\TextInput::make('address')->required()->maxLength(255),
                 Forms\Components\TextInput::make('latitude')->required()->numeric(),
                 Forms\Components\TextInput::make('longitude')->required()->numeric(),
-                Forms\Components\TextInput::make('rating')->required()->numeric(),
+                Forms\Components\TextInput::make('rating')->required()->numeric()->minValue(0)
+                ->maxValue(5),
                 Forms\Components\Textarea::make('description'),
                 Forms\Components\FileUpload::make('logo')
                 ->directory('restaurant_images')

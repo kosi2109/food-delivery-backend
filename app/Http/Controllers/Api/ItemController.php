@@ -23,7 +23,15 @@ class ItemController extends Controller
             }
 
             if ($request->has('is_offer_item')) {
-                $query->where('is_offer_item', $request->is_offer_item);
+                $query->where('is_offer_item', $request->boolean('is_offer_item'));
+            }
+
+            if ($request->has('rating')) {
+                $query->where('rating', '>=', $request->rating);
+            }
+
+            if ($request->has('name')) {
+                $query->where('name', 'like', '%' . $request->name . '%');
             }
 
             $items = $query->get();
@@ -34,7 +42,7 @@ class ItemController extends Controller
                 if ($item->restaurant) {
                     $item->restaurant->logo = getFullImageUrl($item->restaurant->logo);
                 }
-                
+
                 if ($item->category) {
                     $item->category->cover_image = getFullImageUrl($item->category->cover_image);
                 }
@@ -42,7 +50,7 @@ class ItemController extends Controller
                 return $item;
             });
 
-            return response()->json($items,200);
+            return response()->json($items, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch items', 'message' => $e->getMessage()], 500);
         }
@@ -56,12 +64,12 @@ class ItemController extends Controller
             if ($item->restaurant) {
                 $item->restaurant->logo = getFullImageUrl($item->restaurant->logo);
             }
-            
+
             if ($item->category) {
                 $item->category->cover_image = getFullImageUrl($item->category->cover_image);
             }
 
-            return response()->json($item,200);
+            return response()->json($item, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch item', 'message' => $e->getMessage()], 500);
         }
