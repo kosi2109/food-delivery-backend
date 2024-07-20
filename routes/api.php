@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ItemController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\RestaurantController;
 
@@ -33,3 +34,9 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('restaurants', RestaurantController::class);
 Route::apiResource('items', ItemController::class);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/checkout', [OrderController::class, 'checkout']);
+    Route::get('/orders_history', [OrderController::class, 'index']);
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
+});

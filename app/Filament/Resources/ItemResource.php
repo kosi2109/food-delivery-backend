@@ -39,7 +39,9 @@ class ItemResource extends Resource
                     ->numeric(),
                 Forms\Components\TextInput::make('rating')
                     ->numeric()
-                    ->default(0),
+                    ->default(0)
+                    ->minValue(0)
+                    ->maxValue(5),
                 Forms\Components\FileUpload::make('cover_image')
                     ->directory('item_images')
                     ->image()
@@ -70,8 +72,26 @@ class ItemResource extends Resource
                 // Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])
             ->filters([
-                //
-            ])
+                Tables\Filters\SelectFilter::make('restaurant')
+                ->relationship('restaurant', 'name'),
+                Tables\Filters\SelectFilter::make('category')
+                    ->relationship('category', 'name'),
+                Tables\Filters\TernaryFilter::make('is_offer_item')
+                    ->label('Offer Item'),
+                Tables\Filters\Filter::make('name')
+                    ->query(fn (Builder $query, array $data): Builder => $query->where('name', 'like', '%' . $data['name'] . '%'))
+                    ->form([
+                        Forms\Components\TextInput::make('name')->label('Item Name'),
+                    ]),
+                Tables\Filters\SelectFilter::make('rating')
+                    ->options([
+                        '1' => '1 Star',
+                        '2' => '2 Stars',
+                        '3' => '3 Stars',
+                        '4' => '4 Stars',
+                        '5' => '5 Stars',
+                    ]),
+                ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
