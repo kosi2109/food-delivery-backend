@@ -25,6 +25,7 @@ class OrderController extends Controller
             'delivery_note' => 'nullable|string',
             'delivery_cost' => 'required|numeric|min:0',
             'sub_total' => 'required|numeric|min:0',
+            'payment_type_id' => 'required',
             'status' => 'required'
         ]);
 
@@ -41,6 +42,7 @@ class OrderController extends Controller
                 'delivery_note' => $request->delivery_note,
                 'delivery_cost' => $request->delivery_cost,
                 'sub_total' => $request->sub_total,
+                'payment_type_id' => $request->payment_type_id,
                 'status' => $request->status
             ]);
 
@@ -82,6 +84,13 @@ class OrderController extends Controller
 
         $orders = $query->get();
 
+        $paymentTypes = config('payment_types.types');
+
+        $orders = $orders->map(function ($order) use ($paymentTypes) {
+            $order->payment_type = $paymentTypes[$order->payment_type_id] ?? 'Unknown';
+            return $order;
+        });
+
         return response()->json($orders);
     }
 
@@ -89,10 +98,20 @@ class OrderController extends Controller
     {
         $customer = Auth::user();
         
-        $order = Order::where('user_id', $customer->id)
-                      ->with(['orderItems.item','customer'])
-                      ->findOrFail($id);
+        $order = Order::where('customer_id', $customer->id)
+                ->where('id', $id)
+                ->with(['orderItems.item', 'customer'])
+                ->firstOrFail();
         
+        $paymentTypes = config('payment_types.types');
+
+        $order->payment_type = $paymentTypes[$order->payment_type_id] ?? 'Unknown';
+
         return response()->json($order);
+    }
+
+    public function paymentTypeList()
+    {
+        return response()->json(config('payment_types'));
     }
 }

@@ -32,11 +32,10 @@ class OrderResource extends Resource
                 Forms\Components\Select::make('status')
                     ->required()
                     ->options([
-                        1 => 'Ordered',
-                        2 => 'Accepted',
-                        3 => 'Delivering',
-                        4 => 'Delivered',
-                        5 => 'Canceled',
+                        'ordered' => 'Ordered',
+                        'delivering' => 'Delivering',
+                        'delivered' => 'Delivered',
+                        'cancel' => 'Canceled',
                     ]),
             ]);
     }
@@ -51,17 +50,16 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('delivery_cost'),
                 Tables\Columns\TextColumn::make('sub_total'),
                 Tables\Columns\TextColumn::make('total_price')->sortable(),
-                Tables\Columns\TextColumn::make('status_text')->label('Status'),
+                Tables\Columns\TextColumn::make('status')->label('Status'),
                 Tables\Columns\TextColumn::make('created_at')->label('Ordered At')->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                 ->options([
-                    1 => 'Ordered',
-                    2 => 'Accepted',
-                    3 => 'Delivering',
-                    4 => 'Delivered',
-                    5 => 'Canceled',
+                    'ordered' => 'Ordered',
+                    'delivering' => 'Delivering',
+                    'delivered' => 'Delivered',
+                    'cancel' => 'Canceled',
                 ]),
                 Tables\Filters\Filter::make('customer')
                     ->form([

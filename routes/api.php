@@ -37,6 +37,7 @@ Route::apiResource('items', ItemController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/checkout', [OrderController::class, 'checkout']);
-    Route::get('/orders_history', [OrderController::class, 'index']);
-    Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::get('/orders-history', [OrderController::class, 'index']);
+    Route::get('/orders-detail/{id}', [OrderController::class, 'show']);
+    Route::get('/paymentTypes', [OrderController::class, 'paymentTypeList']);
 });

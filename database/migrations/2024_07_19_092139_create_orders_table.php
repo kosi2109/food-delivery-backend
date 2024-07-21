@@ -21,7 +21,8 @@ return new class extends Migration
             $table->integer('delivery_cost');
             $table->integer('sub_total');
             $table->integer('total_price');
-            $table->integer('status')->default(0);
+            $table->unsignedInteger('payment_type_id');
+            $table->enum('status', ['ordered', 'delivering', 'delivered', 'cancel'])->default('ordered');
             $table->timestamps();
         });
     }
