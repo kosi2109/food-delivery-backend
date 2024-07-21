@@ -25,7 +25,8 @@ class ViewOrder extends ViewRecord
                         TextEntry::make('delivery_cost'),
                         TextEntry::make('sub_total'),
                         TextEntry::make('total_price'),
-                        TextEntry::make('status_text')->label('Status'),
+                        TextEntry::make('status')->label('Status'),
+                        TextEntry::make('payment_type_text')->label('Payment Type'),
                         TextEntry::make('created_at')->label('Ordered At'),
                     ])->columns(4),
                 Section::make('Order Items')

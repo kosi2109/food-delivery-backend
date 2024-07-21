@@ -8,6 +8,6 @@ if (!function_exists('getFullImageUrl')) {
         }
 
         $appUrl = rtrim(config('app.url'), '/');
-        return $appUrl . '/' . ltrim($path, '/');
+        return $appUrl . '/storage' . '/' . ltrim($path, '/');
     }
 }

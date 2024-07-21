@@ -18,6 +18,7 @@ class Order extends Model
         'delivery_note',
         'delivery_cost',
         'sub_total',
+        'payment_type_id',
         'status'
     ];
 
@@ -34,5 +35,10 @@ class Order extends Model
     public function getStatusTextAttribute()
     {
         return config('status.status')[$this->status] ?? 'Unknown';
+    }
+
+    public function getPaymentTypeTextAttribute()
+    {
+        return config('payment_types.types')[$this->payment_type_id] ?? 'Unknown';
     }
 }
