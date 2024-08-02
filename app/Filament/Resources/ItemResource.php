@@ -51,7 +51,14 @@ class ItemResource extends Resource
                 Forms\Components\TextInput::make('offer_price')
                     ->numeric()
                     ->nullable(),
-               
+                Forms\Components\HasManyRepeater::make('portions')
+                    ->relationship('portions')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')->required(),
+                        Forms\Components\TextInput::make('price')->required(),
+                    ])
+                    ->label('Portions')
+                    ->collapsible(),
             ]);
     }
 
@@ -68,7 +75,10 @@ class ItemResource extends Resource
                 Tables\Columns\BooleanColumn::make('is_offer_item'),
                 // Tables\Columns\TextColumn::make('offer_price')->sortable(),
                 Tables\Columns\ImageColumn::make('cover_image'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
+                Tables\Columns\TextColumn::make('portions_count')
+                ->counts('portions')
+                ->label('Number of Portions'),
+                Tables\Columns\TextColumn::make('created_at')->dateTime('d-m-Y'),
                 // Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])
             ->filters([

@@ -29,4 +29,9 @@ class Item extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function portions()
+    {
+        return $this->hasMany(Portion::class);
+    }
 }
