@@ -12,7 +12,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Item::query()->with('restaurant', 'category');
+            $query = Item::query()->with('restaurant', 'category', 'portions');
 
             if ($request->has('restaurant_id')) {
                 $query->where('restaurant_id', $request->restaurant_id);
@@ -59,7 +59,7 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         try {
-            $item = $item->load('restaurant', 'category');
+            $item = $item->load('restaurant', 'category','portions');
             $item->cover_image = getFullImageUrl($item->cover_image);
             if ($item->restaurant) {
                 $item->restaurant->logo = getFullImageUrl($item->restaurant->logo);

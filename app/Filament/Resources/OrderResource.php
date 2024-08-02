@@ -51,7 +51,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('sub_total'),
                 Tables\Columns\TextColumn::make('total_price')->sortable(),
                 Tables\Columns\TextColumn::make('status')->label('Status'),
-                Tables\Columns\TextColumn::make('created_at')->label('Ordered At')->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Ordered At')->sortable()->dateTime('d-m-Y'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')

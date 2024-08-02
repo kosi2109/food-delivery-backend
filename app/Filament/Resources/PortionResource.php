@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\PortionResource\Pages;
+use App\Filament\Resources\PortionResource\RelationManagers;
+use App\Models\Portion;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,13 +13,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CategoryResource extends Resource
+class PortionResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Portion::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -28,11 +28,11 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description'),
-                Forms\Components\FileUpload::make('cover_image')
-                    ->directory('categories')
-                    ->image()
-                    ->nullable(),
+                Forms\Components\TextInput::make('price')
+                    ->required(),
+                Forms\Components\Select::make('item_id')
+                    ->relationship('item', 'name')
+                    ->required(),
             ]);
     }
 
@@ -40,12 +40,9 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable(),
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('description')->sortable()->searchable(),
-                Tables\Columns\ImageColumn::make('cover_image'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime('d-m-Y'),
-                // Tables\Columns\TextColumn::make('updated_at')->dateTime(),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('price'),
+                Tables\Columns\TextColumn::make('item.name')->label('Item'),
             ])
             ->filters([
                 //
@@ -70,9 +67,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListPortions::route('/'),
+            'create' => Pages\CreatePortion::route('/create'),
+            'edit' => Pages\EditPortion::route('/{record}/edit'),
         ];
     }
 }

@@ -56,7 +56,7 @@ class RestaurantResource extends Resource
                 Tables\Columns\BooleanColumn::make('is_popular'),
                 // Tables\Columns\TextColumn::make('description')->limit(50),
                 Tables\Columns\ImageColumn::make('logo'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
+                Tables\Columns\TextColumn::make('created_at')->dateTime('d-m-Y'),
                 // Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])
             ->filters([

@@ -35,6 +35,7 @@ class ViewOrder extends ViewRecord
                             ->schema([
                                 TextEntry::make('item.name')
                                     ->label('Item Name'),
+                                TextEntry::make('portion.name')->label('Portion'),
                                 TextEntry::make('quantity'),
                                 TextEntry::make('price'),
                                 TextEntry::make('subtotal')

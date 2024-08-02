@@ -9,5 +9,5 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'cover_image'];
+    protected $fillable = ['name', 'cover_image', 'description'];
 }

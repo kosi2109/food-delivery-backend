@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Order;
+use App\Models\Portion;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -47,9 +48,13 @@ class OrderController extends Controller
             ]);
 
             foreach ($request->order_items as $item) {
+                $portion = Portion::findOrFail($item['portion_id']);
+                $price = $portion->price;
+                
                 OrderItem::create([
                     'item_id' => $item['item_id'],
                     'quantity' => $item['quantity'],
+                    'portion_id' => $item['portion_id'],
                     'price' => $item['price'],
                     'order_id' => $order->id,
                 ]);
