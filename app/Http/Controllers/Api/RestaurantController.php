@@ -17,11 +17,27 @@ class RestaurantController extends Controller
         }
 
         if ($request->has('shop_type')) {
-            $query->where('shop_type', 'like', '%' . $request->food_type . '%');
+            $query->where('shop_type', 'like', '%' . $request->shop_type . '%');
         }
 
         if ($request->has('shop_name')) {
             $query->where('name', 'like', '%' . $request->shop_name . '%');
+        }
+
+        if ($request->has('rating')) {
+            $query->where('rating', $request->rating);
+        }
+    
+        if ($request->has('address')) {
+            $query->where('address', 'like', '%' . $request->address . '%');
+        }
+
+        if ($request->has('latitude')) {
+            $query->where('latitude', $request->latitude);
+        }
+    
+        if ($request->has('longitude')) {
+            $query->where('longitude', $request->longitude);
         }
 
         $restaurants = $query->get();

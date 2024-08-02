@@ -27,7 +27,7 @@ class ItemController extends Controller
             }
 
             if ($request->has('rating')) {
-                $query->where('rating', '>=', $request->rating);
+                $query->where('rating', $request->rating);
             }
 
             if ($request->has('name')) {

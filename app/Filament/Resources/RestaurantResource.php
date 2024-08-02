@@ -72,6 +72,14 @@ class RestaurantResource extends Resource
                     ->form([
                         Forms\Components\TextInput::make('name')->label('Shop Name'),
                     ]),
+                Tables\Filters\SelectFilter::make('rating')
+                    ->options([
+                        '1' => '1 Star',
+                        '2' => '2 Stars',
+                        '3' => '3 Stars',
+                        '4' => '4 Stars',
+                        '5' => '5 Stars',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
