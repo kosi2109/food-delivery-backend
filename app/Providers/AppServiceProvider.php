@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
+use App\Http\Livewire\RestaurantAdminRegister;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Livewire::component('restaurant-admin-register', RestaurantAdminRegister::class);
     }
 }

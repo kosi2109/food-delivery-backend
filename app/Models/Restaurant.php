@@ -19,5 +19,12 @@ class Restaurant extends Model
         'is_popular',
         'description',
         'logo',
+        'is_approved',
+        'created_by'
     ];
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

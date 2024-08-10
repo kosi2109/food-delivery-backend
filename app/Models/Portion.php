@@ -13,6 +13,7 @@ class Portion extends Model
         'item_id',
         'name',
         'price',
+        'created_by'
     ];
 
     public function item()

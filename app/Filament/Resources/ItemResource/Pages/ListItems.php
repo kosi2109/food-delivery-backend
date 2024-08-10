@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\ItemResource\Pages;
 
-use App\Filament\Resources\ItemResource;
 use Filament\Actions;
+use App\Filament\Resources\ItemResource;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListItems extends ListRecords
 {
@@ -15,5 +16,18 @@ class ListItems extends ListRecords
         return [
             Actions\CreateAction::make(),
         ];
+    }
+
+    protected function getTableQuery(): ?Builder
+    {
+        $query = parent::getTableQuery();
+
+        $user = auth()->user();
+
+        if ($user && !$user->isSuperadmin()) {
+            $query->where('created_by', $user->id);
+        }
+
+        return $query;
     }
 }

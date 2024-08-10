@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderItem extends Model
 {
@@ -14,7 +15,9 @@ class OrderItem extends Model
         'quantity',
         'portion_id',
         'price',
-        'order_id'
+        'order_id',
+        'total',
+        'status'
     ];
 
     public function order()
@@ -31,4 +34,11 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Portion::class);
     }
+
+    public function getFilteredOrderItems()
+{
+    return $this->orderItems()->whereHas('item', function ($query) {
+        $query->where('created_by', Auth::id());
+    })->get();
+}
 }

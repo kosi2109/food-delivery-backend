@@ -13,13 +13,10 @@ class Order extends Model
         'customer_address',
         'latitude',
         'longitude',
-        'total_price',
         'customer_id',
         'delivery_note',
         'delivery_cost',
-        'sub_total',
-        'payment_type_id',
-        'status'
+        'payment_type_id'
     ];
 
     public function orderItems()
