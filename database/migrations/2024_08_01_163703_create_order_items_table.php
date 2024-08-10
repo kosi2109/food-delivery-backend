@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('portion_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->integer('price');
+            $table->integer('total');
+            $table->enum('status', ['ordered', 'delivering', 'delivered', 'cancel'])->default('ordered');
             $table->timestamps();
         });
     }

@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ItemResource\Pages;
-use App\Filament\Resources\ItemResource\RelationManagers;
-use App\Models\Item;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\Item;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\ItemResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ItemResource\RelationManagers;
 
 class ItemResource extends Resource
 {
@@ -21,12 +22,23 @@ class ItemResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role=='restaurant_owner';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('restaurant_id')
-                    ->relationship('restaurant', 'name')
+                    ->relationship('restaurant', 'name', function ($query) {
+                        $query->where('is_approved', 1);
+
+                        if (!auth()->user()->isSuperadmin()) {
+                            $query->where('created_by', auth()->id());
+                        }
+                    })
                     ->required(),
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
@@ -56,9 +68,14 @@ class ItemResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('name')->required(),
                         Forms\Components\TextInput::make('price')->required(),
+                        Forms\Components\Hidden::make('created_by')
+                        ->default(Auth::id()),
                     ])
                     ->label('Portions')
                     ->collapsible(),
+                    
+                Forms\Components\Hidden::make('created_by')
+                    ->default(Auth::id()),
             ]);
     }
 
@@ -75,9 +92,13 @@ class ItemResource extends Resource
                 Tables\Columns\BooleanColumn::make('is_offer_item'),
                 // Tables\Columns\TextColumn::make('offer_price')->sortable(),
                 Tables\Columns\ImageColumn::make('cover_image'),
-                Tables\Columns\TextColumn::make('portions_count')
-                ->counts('portions')
-                ->label('Number of Portions'),
+                // Tables\Columns\TextColumn::make('portions_count')
+                // ->counts('portions')
+                // ->label('Number of Portions'),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Posted By')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d-m-Y'),
                 // Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])

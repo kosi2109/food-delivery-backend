@@ -21,7 +21,9 @@ return new class extends Migration
             $table->float('rating')->default(0);
             $table->boolean('is_popular')->default(false);
             $table->text('description')->nullable();
-            $table->string('logo')->nullable();
+            $table->longText('logo')->nullable();
+            $table->boolean('is_approved')->default(false)->nullable();
+            $table->integer('created_by')->nullable();
             $table->timestamps();
         });
     }

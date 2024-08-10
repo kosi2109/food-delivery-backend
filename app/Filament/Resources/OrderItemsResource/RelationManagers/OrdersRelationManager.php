@@ -8,7 +8,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class OrdersRelationManager extends RelationManager
 {
@@ -26,14 +26,26 @@ class OrdersRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+        $user = Auth::user();
+        $isSuperadmin = $user->isSuperadmin();
+
         return $table
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+                // Add more columns as needed
             ])
             ->filters([
-                //
+                // Add any custom filters if needed
             ])
+            ->query(function (Builder $query) use ($isSuperadmin, $user) {
+                if (!$isSuperadmin) {
+                    // Filter records based on user role
+                    $query->whereHas('item', function (Builder $q) use ($user) {
+                        $q->where('created_by', $user->id);
+                    });
+                }
+            })
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ])
@@ -48,3 +60,4 @@ class OrdersRelationManager extends RelationManager
             ]);
     }
 }
+

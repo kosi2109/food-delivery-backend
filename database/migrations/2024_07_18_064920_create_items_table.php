@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('is_offer_item')->default(false);
             $table->integer('offer_price')->nullable();
             $table->string('cover_image')->nullable();
+            $table->integer('created_by')->nullable();
             $table->timestamps();
         });
     }

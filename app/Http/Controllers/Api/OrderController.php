@@ -19,15 +19,14 @@ class OrderController extends Controller
             'order_items.*.item_id' => 'required|exists:items,id',
             'order_items.*.quantity' => 'required|integer|min:1',
             'order_items.*.price' => 'required|numeric|min:0',
+            'order_items.*.total' => 'required|numeric|min:0',
+            'order_items.*.status' => 'required|numeric|min:0',
             'customer_address' => 'required',
             'latitude' =>'required',
             'longitude' => 'required',
-            'total_price' => 'required|numeric|min:0',
             'delivery_note' => 'nullable|string',
             'delivery_cost' => 'required|numeric|min:0',
-            'sub_total' => 'required|numeric|min:0',
             'payment_type_id' => 'required',
-            'status' => 'required'
         ]);
 
         DB::beginTransaction();
@@ -38,13 +37,10 @@ class OrderController extends Controller
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'customer_id' => auth()->user()->id,
-                'total_price' => $request->total_price,
                 'customer_id' => Auth::id(),
                 'delivery_note' => $request->delivery_note,
                 'delivery_cost' => $request->delivery_cost,
-                'sub_total' => $request->sub_total,
                 'payment_type_id' => $request->payment_type_id,
-                'status' => $request->status
             ]);
 
             foreach ($request->order_items as $item) {
@@ -57,6 +53,8 @@ class OrderController extends Controller
                     'portion_id' => $item['portion_id'],
                     'price' => $item['price'],
                     'order_id' => $order->id,
+                    'total' => $item['total'],
+                    'status' => $item['status']
                 ]);
             }
 

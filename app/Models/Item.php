@@ -17,7 +17,8 @@ class Item extends Model
         'rating',
         'is_offer_item',
         'offer_price',
-        'cover_image'
+        'cover_image',
+        'created_by'
     ];
 
     public function restaurant()
@@ -33,5 +34,10 @@ class Item extends Model
     public function portions()
     {
         return $this->hasMany(Portion::class);
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

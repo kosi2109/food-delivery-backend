@@ -19,10 +19,7 @@ return new class extends Migration
             $table->decimal('longitude', 10, 7);
             $table->string('delivery_note');
             $table->integer('delivery_cost');
-            $table->integer('sub_total');
-            $table->integer('total_price');
             $table->unsignedInteger('payment_type_id');
-            $table->enum('status', ['ordered', 'delivering', 'delivered', 'cancel'])->default('ordered');
             $table->timestamps();
         });
     }

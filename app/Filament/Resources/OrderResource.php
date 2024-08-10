@@ -48,9 +48,8 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('customer.fullname')->label('Customer'),
                 Tables\Columns\TextColumn::make('delivery_note'),
                 Tables\Columns\TextColumn::make('delivery_cost'),
-                Tables\Columns\TextColumn::make('sub_total'),
-                Tables\Columns\TextColumn::make('total_price')->sortable(),
-                Tables\Columns\TextColumn::make('status')->label('Status'),
+                Tables\Columns\TextColumn::make('orderItems.total')->sortable(),
+                Tables\Columns\TextColumn::make('orderItems.status')->label('Status'),
                 Tables\Columns\TextColumn::make('created_at')->label('Ordered At')->sortable()->dateTime('d-m-Y'),
             ])
             ->filters([
