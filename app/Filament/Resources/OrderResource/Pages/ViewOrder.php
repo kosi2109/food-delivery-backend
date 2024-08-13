@@ -40,6 +40,7 @@ class ViewOrder extends ViewRecord
                                 TextEntry::make('price'),
                                 TextEntry::make('total'),
                                 TextEntry::make('status'),
+                                TextEntry::make('deliveryMan.name')->label('Delivery Man Name'),
                             ])
                             ->columns(6)
                             ->hidden(fn ($record) => !$user->isSuperadmin() && !$record->orderItems->contains(fn ($orderItem) => $orderItem->item && $orderItem->item->created_by === $user->id))

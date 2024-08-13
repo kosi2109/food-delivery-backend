@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\RestaurantController;
+use App\Http\Controllers\Api\DeliveryManController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders-detail/{id}', [OrderController::class, 'show']);
     Route::get('/paymentTypes', [OrderController::class, 'paymentTypeList']);
 });
+
+Route::post('deliveryman/login', [DeliveryManController::class, 'login']);
+Route::middleware('auth:sanctum')->post('deliveryman/logout', [DeliveryManController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('deliveryman/orders', [DeliveryManController::class, 'orderList']);
+Route::middleware('auth:sanctum')->post('deliveryman/orders/{orderId}/take', [DeliveryManController::class, 'takeOrder']);

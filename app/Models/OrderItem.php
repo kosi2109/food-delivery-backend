@@ -35,10 +35,20 @@ class OrderItem extends Model
         return $this->belongsTo(Portion::class);
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function deliveryMan()
+    {
+        return $this->belongsTo(User::class, 'delivery_man_id');
+    }
+
     public function getFilteredOrderItems()
-{
-    return $this->orderItems()->whereHas('item', function ($query) {
-        $query->where('created_by', Auth::id());
-    })->get();
-}
+    {
+        return $this->orderItems()->whereHas('item', function ($query) {
+            $query->where('created_by', Auth::id());
+        })->get();
+    }
 }
