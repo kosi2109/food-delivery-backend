@@ -47,34 +47,71 @@ class DeliveryManController extends Controller
 
     public function orderList(Request $request)
     {
-        $query = OrderItem::query()
-            ->with(['order', 'portion', 'order.customer']);
+        // $query = OrderItem::query()
+        //     ->with(['order', 'portion', 'order.customer']);
+        $query = Order::query()
+            ->with(['orderItems', 'customer']);
 
         if ($request->has('status')) {
-            $query->where('status', $request->status);
+            $query->whereHas('orderItems', function ($q) use ($request) {
+                $q->where('status', $request->status);
+            });
         }
 
-        $orderItems = $query->get();
+        // if ($request->has('status')) {
+        //     $query->where('status', $request->status);
+        // }
+
+        $orders = $query->get();
 
         $paymentTypes = config('payment_types.types');
 
-        $orderItems = $orderItems->map(function ($orderItem) use ($paymentTypes) {
+        // $orderItems = $orderItems->map(function ($orderItem) use ($paymentTypes) {
+        //     // Add payment type to the order
+        //     $orderItem->payment_type = $paymentTypes[$orderItem->order->payment_type_id] ?? 'Unknown';
+
+        //     // Add portion name
+        //     $orderItem->portion_name = $orderItem->portion->name ?? 'Unknown';
+
+        //     // Include delivery_man_id from the order
+        //     $orderItem->delivery_man_name = $orderItem->order->delivery_man_id;
+
+        //     // Optionally include customer details if needed
+        //     $orderItem->customer = $orderItem->order->customer;
+
+        //     return $orderItem;
+        // });
+
+        $orders = $orders->map(function ($order) use ($paymentTypes) {
             // Add payment type to the order
-            $orderItem->payment_type = $paymentTypes[$orderItem->order->payment_type_id] ?? 'Unknown';
+            $order->payment_type = $paymentTypes[$order->payment_type_id] ?? 'Unknown';
 
-            // Add portion name
+            return $order;
+        });
+
+        return response()->json($orders);
+    }
+
+    public function orderDetail($id)
+    {
+        $order = Order::with([
+            'orderItems',
+            'customer'
+        ])
+            ->findOrFail($id);
+
+        $paymentTypes = config('payment_types.types');
+
+        $order->payment_type = $paymentTypes[$order->payment_type_id] ?? 'Unknown';
+
+        $order->order_items = $order->orderItems->map(function ($orderItem) {
             $orderItem->portion_name = $orderItem->portion->name ?? 'Unknown';
-
-            // Include delivery_man_id from the order
-            $orderItem->delivery_man_name = $orderItem->order->delivery_man_id;
-
-            // Optionally include customer details if needed
-            $orderItem->customer = $orderItem->order->customer;
-
+            $orderItem->item = $orderItem->item;
+            $orderItem->restaurant = $orderItem->item->restaurant;
             return $orderItem;
         });
 
-        return response()->json($orderItems);
+        return response()->json($order);
     }
 
 
@@ -100,5 +137,20 @@ class DeliveryManController extends Controller
         $orderItem->save();
 
         return response()->json(['message' => 'Order taken successfully', 'orderItem' => $orderItem]);
+    }
+
+    public function markDelivered($orderId)
+    {
+        $order = Order::with('orderItems')->findOrFail($orderId);
+
+        $order->delivery_man_id = auth()->id();
+        $order->save();
+
+        $order->orderItems()->update(['status' => 'delivered']);
+
+        return response()->json([
+            'message' => 'Order marked as delivered successfully.',
+            'order_id' => $orderId
+        ]);
     }
 }
