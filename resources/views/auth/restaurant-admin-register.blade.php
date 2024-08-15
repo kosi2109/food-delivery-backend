@@ -96,13 +96,13 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="rating" class="form-label">Rating</label>
                         <input id="rating" class="form-control @error('rating') is-invalid @enderror" type="number" name="rating" value="{{ old('rating') }}" required min="0" max="5">
                         @error('rating')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
@@ -113,13 +113,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <div class="form-check">
+                        {{-- <div class="form-check">
                             <input class="form-check-input" type="radio" name="is_popular" id="is_popular" value="1" {{ old('is_popular') == 1 ? 'checked' : '' }}>
                             <label class="form-check-label" for="is_popular">
                              Is Popular
                             </label>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="mb-3">
                         <label for="logo" class="form-label">Logo</label>

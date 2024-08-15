@@ -43,7 +43,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/paymentTypes', [OrderController::class, 'paymentTypeList']);
 });
 
-Route::post('deliveryman/login', [DeliveryManController::class, 'login']);
-Route::middleware('auth:sanctum')->post('deliveryman/logout', [DeliveryManController::class, 'logout']);
-Route::middleware('auth:sanctum')->get('deliveryman/orders', [DeliveryManController::class, 'orderList']);
-Route::middleware('auth:sanctum')->post('deliveryman/orders/{orderId}/take', [DeliveryManController::class, 'takeOrder']);
+Route::post('/deliveryman/login', [DeliveryManController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/deliveryman/logout', [DeliveryManController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/deliveryman/orders', [DeliveryManController::class, 'orderList']);
+Route::middleware('auth:sanctum')->get('/deliveryman/orders/{id}', [DeliveryManController::class, 'orderDetail']);
+Route::middleware('auth:sanctum')->post('/deliveryman/order-item/{orderId}/take', [DeliveryManController::class, 'takeOrder']);
+Route::middleware('auth:sanctum')->post('/deliveryman/orders/{orderId}/mark-delivered', [DeliveryManController::class, 'markDelivered']);
