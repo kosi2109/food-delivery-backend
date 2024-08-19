@@ -37,7 +37,11 @@ class PortionResource extends Resource
                 Forms\Components\TextInput::make('price')
                     ->required(),
                 Forms\Components\Select::make('item_id')
-                    ->relationship('item', 'name')
+                    ->relationship('item', 'name', function ($query) {
+                        if (!auth()->user()->isSuperadmin()) {
+                            $query->where('created_by', auth()->id());
+                        }
+                    })
                     ->required(),
                 Forms\Components\Hidden::make('created_by')
                     ->default(Auth::id()),
