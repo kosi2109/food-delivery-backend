@@ -13,7 +13,6 @@ class Item extends Model
         'restaurant_id',
         'category_id',
         'name',
-        'price',
         'rating',
         'is_offer_item',
         'offer_price',

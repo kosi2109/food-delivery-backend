@@ -48,18 +48,32 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('customer.fullname')->label('Customer'),
                 Tables\Columns\TextColumn::make('delivery_note'),
                 Tables\Columns\TextColumn::make('delivery_cost'),
-                Tables\Columns\TextColumn::make('orderItems.total')->sortable(),
-                Tables\Columns\TextColumn::make('orderItems.status')->label('Status'),
+                Tables\Columns\TextColumn::make('orderItems_total')
+                    ->label('Total')
+                    ->sortable()
+                    ->getStateUsing(function ($record) {
+                        $orderItems = $record->orderItems()->whereHas('item', function ($query) {
+                            if (!auth()->user()->isSuperadmin()) {
+                                $query->where('created_by', auth()->id());
+                            }
+                        });
+                
+                        // Sum the total after applying the filter
+                        $total = $orderItems->sum('total');
+                
+                        return $total;
+                    }),
+                Tables\Columns\TextColumn::make('status')->label('Status'),
                 Tables\Columns\TextColumn::make('created_at')->label('Ordered At')->sortable()->dateTime('d-m-Y'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                ->options([
-                    'ordered' => 'Ordered',
-                    'delivering' => 'Delivering',
-                    'delivered' => 'Delivered',
-                    'cancel' => 'Canceled',
-                ]),
+                    ->options([
+                        'ordered' => 'Ordered',
+                        'delivering' => 'Delivering',
+                        'delivered' => 'Delivered',
+                        'cancel' => 'Canceled',
+                    ]),
                 Tables\Filters\Filter::make('customer')
                     ->form([
                         Forms\Components\TextInput::make('customer_name'),
@@ -68,7 +82,7 @@ class OrderResource extends Resource
                         return $query
                             ->when(
                                 $data['customer_name'],
-                                fn (Builder $query, $name): Builder => $query->whereHas('customer', function (Builder $query) use ($name) {
+                                fn(Builder $query, $name): Builder => $query->whereHas('customer', function (Builder $query) use ($name) {
                                     $query->where('fullname', 'like', "%{$name}%");
                                 })
                             );

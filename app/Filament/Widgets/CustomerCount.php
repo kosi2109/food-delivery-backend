@@ -3,8 +3,9 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Customer;
-use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Illuminate\Support\Facades\Auth;
 use Filament\Widgets\StatsOverviewWidget\Card;
+use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
 class CustomerCount extends BaseWidget
 {
@@ -16,5 +17,10 @@ class CustomerCount extends BaseWidget
                 ->descriptionIcon('heroicon-s-user')
                 ->color('success')
         ];
+    }
+
+    public static function canView(): bool
+    {
+        return Auth::user()->isSuperadmin();
     }
 }
