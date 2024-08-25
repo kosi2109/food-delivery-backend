@@ -86,6 +86,8 @@ class DeliveryManController extends Controller
             // Add payment type to the order
             $order->payment_type = $paymentTypes[$order->payment_type_id] ?? 'Unknown';
 
+            $order->grand_total = $order->orderItems->sum('total');
+
             return $order;
         });
 
@@ -143,7 +145,7 @@ class DeliveryManController extends Controller
     {
         $order = Order::with('orderItems')->findOrFail($orderId);
 
-        $order->delivery_man_id = auth()->id();
+        // $order->delivery_man_id = auth()->id();
         $order->save();
 
         $order->orderItems()->update(['status' => 'delivered']);
@@ -151,6 +153,30 @@ class DeliveryManController extends Controller
         return response()->json([
             'message' => 'Order marked as delivered successfully.',
             'order_id' => $orderId
+        ]);
+    }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $order = Order::with('orderItems')->findOrFail($id);
+        $newStatus = $request->status;
+
+        if ($order->status !== 'cancel') {
+            $order->update(['status' => $newStatus]);
+        } else {
+            return response()->json([
+                'error' => 'Order is already cancelled and cannot be updated.',
+                'order_id' => $id
+            ], 400);
+        }
+
+        $updatedCount = $order->orderItems()
+            ->where('status', '!=', 'cancel')
+            ->update(['status' => $newStatus]);
+
+        return response()->json([
+            'message' => "Order is successfully {$newStatus}. {$updatedCount} item(s) updated.",
+            'order_id' => $id
         ]);
     }
 }

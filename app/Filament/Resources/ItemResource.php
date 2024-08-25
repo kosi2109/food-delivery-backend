@@ -46,18 +46,11 @@ class ItemResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\TextInput::make('rating')
                     ->numeric()
                     ->default(0)
                     ->minValue(0)
                     ->maxValue(5),
-                Forms\Components\FileUpload::make('cover_image')
-                    ->directory('item_images')
-                    ->image()
-                    ->nullable(),
                 Forms\Components\Toggle::make('is_offer_item')
                     ->default(false),
                 Forms\Components\TextInput::make('offer_price')
@@ -73,6 +66,11 @@ class ItemResource extends Resource
                     ])
                     ->label('Portions')
                     ->collapsible(),
+            
+                Forms\Components\FileUpload::make('cover_image')
+                    ->directory('item_images')
+                    ->image()
+                    ->nullable(),
                     
                 Forms\Components\Hidden::make('created_by')
                     ->default(Auth::id()),
@@ -87,7 +85,6 @@ class ItemResource extends Resource
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('restaurant.name')->sortable()->label('Restaurant'),
                 Tables\Columns\TextColumn::make('category.name')->sortable()->label('Category'),
-                Tables\Columns\TextColumn::make('price')->sortable(),
                 // Tables\Columns\TextColumn::make('rating')->sortable(),
                 Tables\Columns\BooleanColumn::make('is_offer_item'),
                 // Tables\Columns\TextColumn::make('offer_price')->sortable(),

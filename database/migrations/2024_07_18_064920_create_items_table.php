@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->integer('price');
             $table->float('rating')->default(0);
             $table->boolean('is_offer_item')->default(false);
             $table->integer('offer_price')->nullable();

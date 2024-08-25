@@ -16,7 +16,9 @@ class Order extends Model
         'customer_id',
         'delivery_note',
         'delivery_cost',
-        'payment_type_id'
+        'payment_type_id',
+        'grand_total',
+        'status'
     ];
 
     public function orderItems()

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('delivery_note');
             $table->integer('delivery_cost');
             $table->unsignedInteger('payment_type_id');
+            $table->enum('status', ['ordered', 'delivering', 'delivered', 'cancel'])->default('ordered');
             $table->timestamps();
         });
     }
