@@ -14,7 +14,7 @@ class CustomerCount extends BaseWidget
         return [
             Card::make('Total Customers', Customer::count())
                 ->description('Total registered customers')
-                ->descriptionIcon('heroicon-s-user')
+                // ->descriptionIcon('heroicon-s-user')
                 ->color('success')
         ];
     }

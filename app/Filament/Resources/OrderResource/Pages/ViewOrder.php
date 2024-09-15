@@ -25,7 +25,17 @@ class ViewOrder extends ViewRecord
                         TextEntry::make('id')->label('Order ID'),
                         TextEntry::make('customer.fullname')->label('Customer'),
                         TextEntry::make('delivery_note'),
-                        TextEntry::make('delivery_cost'),
+                        TextEntry::make('delivery_cost')->label('Delivery Cost')
+                            ->state(function ($record) use ($user) {
+                                if ($user->isSuperadmin()) {
+                                    $deliveryCost = $record->delivery_cost;
+                                    $adminCost = $deliveryCost * 0.2;
+                                    $deliveryManCost = $deliveryCost - $adminCost;
+
+                                    return "Delivery Man: $deliveryManCost | Admin: $adminCost";
+                                }
+                                return $record->delivery_cost;
+                            }),
                         TextEntry::make('payment_type_text')->label('Payment Type'),
                         TextEntry::make('created_at')->label('Ordered At'),
                     ])->columns(4),

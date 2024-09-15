@@ -11,7 +11,7 @@ class Portion extends Model
 
     protected $fillable = [
         'item_id',
-        'name',
+        'size',
         'price',
         'created_by'
     ];

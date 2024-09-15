@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->string('customer_address');
-            $table->decimal('latitude', 10, 7);
-            $table->decimal('longitude', 10, 7);
+            // $table->decimal('latitude', 10, 7);
+            // $table->decimal('longitude', 10, 7);
             $table->string('delivery_note');
             $table->integer('delivery_cost');
             $table->unsignedInteger('payment_type_id');

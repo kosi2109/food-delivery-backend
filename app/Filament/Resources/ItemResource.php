@@ -46,27 +46,33 @@ class ItemResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('rating')
-                    ->numeric()
-                    ->default(0)
-                    ->minValue(0)
-                    ->maxValue(5),
-                Forms\Components\Toggle::make('is_offer_item')
-                    ->default(false),
+                // Forms\Components\TextInput::make('rating')
+                //     ->numeric()
+                //     ->default(0)
+                //     ->minValue(0)
+                //     ->maxValue(5),
                 Forms\Components\TextInput::make('offer_price')
-                    ->numeric()
-                    ->nullable(),
+                ->label('Offer Price Percentage')
+                ->numeric()
+                ->nullable()
+                ->reactive()
+                ->afterStateUpdated(function ($state, callable $set) {
+                    // Automatically set `is_offer_item` based on `offer_price`
+                    $set('is_offer_item', !empty($state));
+                }),
                 Forms\Components\HasManyRepeater::make('portions')
                     ->relationship('portions')
                     ->schema([
-                        Forms\Components\TextInput::make('name')->required(),
+                        Forms\Components\TextInput::make('size')->required()->label('Size'),
                         Forms\Components\TextInput::make('price')->required(),
                         Forms\Components\Hidden::make('created_by')
                         ->default(Auth::id()),
                     ])
                     ->label('Portions')
                     ->collapsible(),
-            
+                
+                
+                
                 Forms\Components\FileUpload::make('cover_image')
                     ->directory('item_images')
                     ->image()
@@ -74,6 +80,7 @@ class ItemResource extends Resource
                     
                 Forms\Components\Hidden::make('created_by')
                     ->default(Auth::id()),
+                Forms\Components\Hidden::make('is_offer_item')->default(0),
             ]);
     }
 

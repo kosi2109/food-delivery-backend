@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('portions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
-            $table->string('name');
+            $table->string('size');
             $table->integer('price');
             $table->integer('created_by')->nullable();
             $table->timestamps();

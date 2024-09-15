@@ -80,7 +80,7 @@
                         @enderror
                     </div>
                 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="latitude" class="form-label">Latitude</label>
                         <input id="latitude" class="form-control @error('latitude') is-invalid @enderror" type="number" name="latitude" value="{{ old('latitude') }}" required>
                         @error('latitude')
@@ -94,7 +94,7 @@
                         @error('longitude')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     {{-- <div class="mb-3">
                         <label for="rating" class="form-label">Rating</label>

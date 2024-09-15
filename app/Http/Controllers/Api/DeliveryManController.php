@@ -88,6 +88,8 @@ class DeliveryManController extends Controller
 
             $order->grand_total = $order->orderItems->sum('total');
 
+            $order->delivery_cost = $order->delivery_cost - ($order->delivery_cost * 0.2);
+
             return $order;
         });
 
@@ -105,6 +107,8 @@ class DeliveryManController extends Controller
         $paymentTypes = config('payment_types.types');
 
         $order->payment_type = $paymentTypes[$order->payment_type_id] ?? 'Unknown';
+
+        $order->delivery_cost = $order->delivery_cost - ($order->delivery_cost * 0.2);
 
         $order->order_items = $order->orderItems->map(function ($orderItem) {
             $orderItem->portion_name = $orderItem->portion->name ?? 'Unknown';

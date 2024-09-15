@@ -31,7 +31,7 @@ class PortionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('size')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
@@ -52,7 +52,7 @@ class PortionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('size'),
                 Tables\Columns\TextColumn::make('price'),
                 Tables\Columns\TextColumn::make('item.name')->label('Item'),
             ])
