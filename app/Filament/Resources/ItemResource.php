@@ -80,7 +80,7 @@ class ItemResource extends Resource
                     
                 Forms\Components\Hidden::make('created_by')
                     ->default(Auth::id()),
-                Forms\Components\Hidden::make('is_offer_item'),
+                Forms\Components\Hidden::make('is_offer_item')->default(0),
             ]);
     }
 
