@@ -40,7 +40,7 @@ class RestaurantResource extends Resource
                     ->directory('restaurant_images')
                     ->image()
                     ->nullable(),
-                Forms\Components\Toggle::make('is_popular')->required(),
+                // Forms\Components\Toggle::make('is_popular')->required(),
 
                 Forms\Components\Hidden::make('created_by')
                     ->default(Auth::id()),
@@ -54,7 +54,7 @@ class RestaurantResource extends Resource
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('address')->sortable()->searchable()->limit(20),
-                Tables\Columns\BooleanColumn::make('is_popular'),
+                // Tables\Columns\BooleanColumn::make('is_popular'),
                 Tables\Columns\BooleanColumn::make('is_approved'),
                 Tables\Columns\TextColumn::make('createdBy.name')
                     ->label('Posted By')
@@ -63,8 +63,8 @@ class RestaurantResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d-m-Y'),
             ])
             ->filters([
-                Tables\Filters\Filter::make('is_popular')
-                    ->query(fn(Builder $query): Builder => $query->where('is_popular', true)),
+                // Tables\Filters\Filter::make('is_popular')
+                //     ->query(fn(Builder $query): Builder => $query->where('is_popular', true)),
                 Tables\Filters\Filter::make('shop_type')
                     ->query(fn(Builder $query, array $data): Builder => $query->where('shop_type', 'like', '%' . $data['shop_type'] . '%'))
                     ->form([
@@ -75,14 +75,14 @@ class RestaurantResource extends Resource
                     ->form([
                         Forms\Components\TextInput::make('name')->label('Shop Name'),
                     ]),
-                Tables\Filters\SelectFilter::make('rating')
-                    ->options([
-                        '1' => '1 Star',
-                        '2' => '2 Stars',
-                        '3' => '3 Stars',
-                        '4' => '4 Stars',
-                        '5' => '5 Stars',
-                    ]),
+                // Tables\Filters\SelectFilter::make('rating')
+                //     ->options([
+                //         '1' => '1 Star',
+                //         '2' => '2 Stars',
+                //         '3' => '3 Stars',
+                //         '4' => '4 Stars',
+                //         '5' => '5 Stars',
+                //     ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
