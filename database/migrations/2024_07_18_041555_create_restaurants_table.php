@@ -19,7 +19,7 @@ return new class extends Migration
             // $table->decimal('latitude', 10, 7);
             // $table->decimal('longitude', 10, 7);
             // $table->float('rating')->default(0);
-            $table->boolean('is_popular')->default(false);
+            // $table->boolean('is_popular')->default(false);
             $table->text('description')->nullable();
             $table->longText('logo')->nullable();
             $table->boolean('is_approved')->default(false)->nullable();

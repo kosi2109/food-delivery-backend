@@ -16,7 +16,7 @@ class Restaurant extends Model
         // 'latitude',
         // 'longitude',
         // 'rating',
-        'is_popular',
+        // 'is_popular',
         'description',
         'logo',
         'is_approved',
