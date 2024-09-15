@@ -22,8 +22,8 @@ class OrderController extends Controller
             'order_items.*.total' => 'required|numeric|min:0',
             'order_items.*.status' => 'required|numeric|min:0',
             'customer_address' => 'required',
-            'latitude' =>'required',
-            'longitude' => 'required',
+            // 'latitude' =>'required',
+            // 'longitude' => 'required',
             'delivery_note' => 'nullable|string',
             'delivery_cost' => 'required|numeric|min:0',
             'payment_type_id' => 'required',
@@ -34,8 +34,8 @@ class OrderController extends Controller
         try {
             $order = Order::create([
                 'customer_address' => $request->customer_address,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
+                // 'latitude' => $request->latitude,
+                // 'longitude' => $request->longitude,
                 'customer_id' => auth()->user()->id,
                 'customer_id' => Auth::id(),
                 'delivery_note' => $request->delivery_note,

@@ -24,8 +24,8 @@ class RestaurantAdminRegisterController extends Controller
             'restaurant_name' => 'required|string|max:255',
             'shop_type' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
+            // 'latitude' => 'required|numeric',
+            // 'longitude' => 'required|numeric',
             // 'rating' => 'required|numeric|min:0|max:5',
             'logo' => 'nullable|image|mimes:jpg,jpeg,png', //
         ]);
@@ -49,8 +49,8 @@ class RestaurantAdminRegisterController extends Controller
                 'name' => $request->restaurant_name,
                 'shop_type' => $request->shop_type,
                 'address' => $request->address,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
+                // 'latitude' => $request->latitude,
+                // 'longitude' => $request->longitude,
                 // 'rating' => $request->rating,
                 'description' => $request->description,
                 // 'is_popular' => $request->is_popular,
