@@ -150,6 +150,7 @@ class DeliveryManController extends Controller
         $order = Order::with('orderItems')->findOrFail($orderId);
 
         // $order->delivery_man_id = auth()->id();
+        $order->update(['status' => 'delivered']);
         $order->save();
 
         $order->orderItems()->update(['status' => 'delivered']);

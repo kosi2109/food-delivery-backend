@@ -14,7 +14,7 @@ class DeliveryCostIncomeWidget extends BaseWidget
     protected function getCards(): array
     {
         // Calculate the total delivery cost
-        $totalDeliveryCost = Order::sum('delivery_cost');
+        $totalDeliveryCost = Order::where('status', 'delivered')->sum('delivery_cost');
 
         // Admin gets 80% of the total delivery cost
         $adminDeliveryIncome = $totalDeliveryCost * 0.2;
